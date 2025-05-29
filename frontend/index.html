@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Del</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <div id="chatLauncher" onclick="openChat()">💬<span id="chatNotif"></span></div>
+  <div id="chatbox">
+    <div class="close-btn" onclick="document.getElementById('chatbox').style.display='none'">×</div>
+    <div class="message-bot" onclick="toggleChatbot()">Chat with us 💬</div>
+    <div id="chatbot-window">
+      <div id="messages"></div>
+      <input type="text" id="input" placeholder="Type your message..." onkeydown="handleKey(event)" />
+      <hr/>
+      <div class="chat-buttons">
+        <button id="sendBtn">Send</button>
+        <button id="clearChatBtn" onclick="clearChat()">🗑️ Clear Chat</button>
+      </div>
+      
+    </div>
+  </div>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script>
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+    const sendBtn = document.getElementById('sendBtn');
+    sendBtn.onclick = () => {
+      const userText = input.value.trim();
+      if (!userText) return;
+      addMessage('user', userText);
+      input.value = '';
+      const botReply = getBotReply(userText.toLowerCase());
+      setTimeout(() => addMessage('bot', botReply), 500);
+    };
+    function addMessage(sender, text) {
+      const msg = document.createElement('div');
+      msg.className = `message ${sender}`;
+      msg.innerText = text;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+    }
+    function openChat() {
+      document.getElementById('chatbox').style.display = 'block';
+      document.getElementById('chatNotif').style.display = 'none'; // Clear notification when opened
+    }
+    function sendMessage() {
+      const input = document.getElementById("input");
+      const userText = input.value.trim();
+      if (!userText) return;
+      addMessage("user", userText);
+      input.value = "";
+      // Simulate bot reply and show notification if chatbox is hidden
+      setTimeout(() => {
+        const reply = getBotReply(userText);
+        addMessage("bot", reply);
+        closeChat();
+        if (document.getElementById('chatbox').style.display === 'none') {
+          document.getElementById('chatNotif').style.display = 'block';
+        }
+      }, 1000);
+    }
+    function addMessage(sender, text) {
+      const messages = document.getElementById("messages");
+      const msg = document.createElement("div");
+      msg.className = sender;
+      msg.textContent = text;
+      messages.appendChild(msg);
+      saveMessages();
+    }
+    function saveMessages() {
+      const messages = Array.from(document.getElementById("messages").children).map(msg => ({
+        className: msg.className,
+        text: msg.textContent
+      }));
+      localStorage.setItem("chatMessages", JSON.stringify(messages));
+    }
+
+    function loadMessages() {
+      const saved = localStorage.getItem("chatMessages");
+      if (saved) {
+        const messages = JSON.parse(saved);
+        messages.forEach(({ className, text }) => {
+          const msg = document.createElement("div");
+          msg.className = className;
+          msg.textContent = text;
+          document.getElementById("messages").appendChild(msg);
+        });
+      }
+    }
+    function clearChat() {
+      document.getElementById("messages").innerHTML = "";
+      localStorage.removeItem("chatMessages");
+      closeChat();
+    }
+    function closeChat() {
+      document.getElementById("chatbox").style.display = "none";
+    }
+    function getBotReply(text) {
+      text = text.toLowerCase();
+
+      if (text.includes('hi') || text.includes('hello') || text.includes('hey')) {
+        return "👋 Hello! Welcome to FoodBot. Ask me about our menu, offers, or ordering!";
+      } else if (text.includes('menu')) {
+        return "📋 Our menu includes: Pizza, Burgers, Pasta, and Salads.";
+      } else if (text.includes('order')) {
+        return "🛒 To place an order, please call us or use our ordering page.";
+      } else if (text.includes('offer') || text.includes('discount')) {
+        return "🎉 We have a 20% discount on all pasta dishes today!";
+      } else if (text.includes('vegan')) {
+        return "🌱 Yes! We have vegan burgers and salads.";
+      } else if (text.includes('dessert') || text.includes('sweet')) {
+        return "🍰 Our desserts include chocolate cake, ice cream, and fruit salad!";
+      } else if (text.includes('drink') || text.includes('beverage')) {
+        return "🥤 We offer soda, fresh juice, coffee, and smoothies.";
+      } else if (text.includes('breakfast')) {
+        return "🍳 Breakfast options: Pancakes, Omelette, and Toast with coffee.";
+      } else if (text.includes('lunch')) {
+        return "🍽️ For lunch, we recommend our grilled chicken salad or pasta bowl.";
+      } else if (text.includes('dinner')) {
+        return "🌙 Our dinner specials include steak, veggie curry, and lasagna.";
+      } else if (text.includes('spicy')) {
+        return "🌶️ Like spicy? Try our hot wings or spicy paneer wrap!";
+      } else if (text.includes('gluten free')) {
+        return "✅ We have gluten-free options like rice bowls and grilled veggies.";
+      } else {
+        return "🤖 I'm not sure. Please ask about our menu, offers, or ordering!";
+      }
+    }
+
+    loadMessages();
+  </script>
+
+</body>
+
+</html>

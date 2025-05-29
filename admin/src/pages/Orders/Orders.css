@@ -1,0 +1,81 @@
+.order-item {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
+  align-items: stretch; 
+  gap: 0;               
+  border: 1px solid tomato;
+  padding: 0;           
+  margin: 30px 0px;
+  font-size: 14px;
+  color: #505050;
+  background-color: aliceblue;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.order-item-food .order-item-name {
+    font-weight: 600;
+}
+.order-item-name {
+    margin-top: 30px;
+    margin-bottom: 5px;
+    margin: 10px 0 5px;
+    font-weight: 600;
+}
+.order-item-address {
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #666;
+}
+.order-item select {
+    background-color: #ffe8e4;
+    border: 1px solid tomato;
+    width: max(10vw, 120px);
+    padding: 10px;
+    outline: none;
+    font-size: 14px;
+}
+.order-list {
+    display: flex;
+    flex-direction: column;
+}
+/* Each column */
+.order-col {
+  padding: 20px;
+  border-left: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Optional: vertically center content */
+}
+
+/* Remove left border on the first column */
+.order-col:first-child {
+    border-left: none;
+}
+
+/* Optional: no bottom border for the last item */
+.order-item:last-child {
+    border-bottom: none;
+}
+.order-item-phone {
+    font-size: 13px;
+}
+/* Responsive layout */
+@media (max-width: 1000px) {
+    .order-item {
+        grid-template-columns: 1fr;
+    }
+    .order-col {
+        border-left: none;
+        border-top: 1px solid #ccc;
+    }
+    .order-col:first-child {
+        border-top: none;
+    }
+    .order-col select {
+        padding: 5px;
+        font-size: 12px;
+    }
+    .order-col img {
+        width: 40px;
+    }
+}
