@@ -4,7 +4,7 @@ import Stripe from "stripe"
 import sendMail from "../utils/sendMail.js";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 const placeOrder = async (req, res) => {
-  const frontend_url = "http://localhost:5173"
+  const frontend_url = "https://cravings-frontend.onrender.com"
   try {
     const newOrder = new orderModel({
       userId: req.userId,
