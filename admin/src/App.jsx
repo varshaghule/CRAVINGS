@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 const App = () => {
-  const url = "http://localhost:4000";
+  const url = "https://cravings-backend-b7kq.onrender.com";
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(true); 
   const handleLogin = (userData) => {
